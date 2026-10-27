@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IA pour les nuls</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#f6f8ff;--card:#fff;--ink:#14213d;--mut:#5b6785;--acc:#2f5bff;--acc2:#ffc93c;--ok:#16a34a;--ko:#dc2626;--line:#dde3f5;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1326;--card:#161e38;--ink:#eef1ff;--mut:#9aa6cc;--acc:#6f8cff;--line:#27325a}}
+:root[data-theme="dark"]{--bg:#0d1326;--card:#161e38;--ink:#eef1ff;--mut:#9aa6cc;--acc:#6f8cff;--line:#27325a}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Bricolage Grotesque",system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px 16px 60px}
+h1{font-size:2.2rem;line-height:1.05;margin:0 0 12px;font-weight:800;letter-spacing:-.03em}
+h2{font-size:1.4rem;margin:0 0 8px;font-weight:800}h3{margin:0 0 4px;font-size:1.05rem}p{margin:0 0 12px}.mut{color:var(--mut)}
+.hero{background:var(--acc);color:#fff;border-radius:22px;padding:24px 20px;margin-bottom:18px}.hero p{opacity:.93}
+.tag{display:inline-block;background:var(--acc2);color:#14213d;font-weight:600;border-radius:99px;padding:2px 12px;font-size:.85rem;margin-bottom:12px}
+.btn{font:inherit;font-weight:600;border:0;border-radius:12px;padding:11px 16px;background:var(--acc);color:#fff;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.y{background:var(--acc2);color:#14213d}.btn.g{background:transparent;color:var(--acc);border:1.5px solid var(--line)}
+.btn:focus-visible,.opt:focus-visible,.mod:focus-visible,select:focus-visible{outline:3px solid var(--acc2);outline-offset:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:12px}
+.mod{display:flex;gap:14px;align-items:center;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.mod .em{font-size:1.8rem}.mod div{flex:1}.bar{height:6px;background:var(--line);border-radius:9px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok)}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
+.opt.ok,.opt.on{border-color:var(--ok);background:rgba(22,163,74,.12)}.opt.ko{border-color:var(--ko);background:rgba(220,38,38,.1)}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;gap:8px}
+.lg button{font:inherit;font-weight:600;font-size:.85rem;border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:5px 10px;border-radius:9px;cursor:pointer;margin-left:4px}
+.lg button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.price{font-size:2rem;font-weight:800;margin:0 0 10px}.lock{opacity:.6}
+.vid{display:flex;gap:12px;align-items:center;background:#14213d;color:#fff;border-radius:14px;padding:14px;margin-bottom:12px;text-decoration:none}
+.vid b{display:flex;width:44px;height:44px;border-radius:50%;background:var(--acc2);color:#14213d;align-items:center;justify-content:center;font-size:1.2rem;flex:none}
+.cert{text-align:center;border:3px double var(--acc);border-radius:18px;padding:28px 16px;background:var(--card)}
+input,select{font:inherit;width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);margin-bottom:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.note{font-size:.85rem;color:var(--mut)}
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}input{-webkit-user-select:text;user-select:text}
+@media print{body{display:none!important}}
+button.vid{font:inherit;width:100%;border:0;text-align:left;cursor:pointer}
+.stage{border-radius:18px;min-height:300px;padding:24px 20px;color:#fff;background:linear-gradient(135deg,#2f5bff,#7a3cff,#ff5fa2);background-size:300% 300%;animation:bg 8s ease infinite;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden}
+@keyframes bg{50%{background-position:100% 50%}}
+.stage .ic{font-size:4rem;animation:pop .6s ease both}@keyframes pop{from{transform:scale(.3) rotate(-20deg);opacity:0}}
+.stage h2{animation:up .6s .1s ease both}.stage p{font-size:1.1rem;animation:up .7s .4s ease both}@keyframes up{from{transform:translateY(16px);opacity:0}}
+.vc{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}.vc .btn{padding:9px 14px}
+.pb{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:10px}.pb i{display:block;height:100%;background:var(--acc2)}
+.wm{position:fixed;inset:-50%;pointer-events:none;z-index:50;opacity:.06;font-weight:800;line-height:3;transform:rotate(-25deg);overflow:hidden;word-spacing:40px}
+@media (prefers-reduced-motion:reduce){.stage,.stage *{animation:none!important}}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+/* ====== À CONFIGURER PAR LE VENDEUR ======
+ PAY : vos numéros ou liens de paiement. Ex : PAY.moncash="+509 0000 0000"; PAY.paypal="https://paypal.me/votrenom"; PAY.card="https://buy.stripe.com/xxxx"
+ VIDEOS : vos vidéos. Ex : VIDEOS["0-fr"]="https://youtu.be/XXXX" (clés : numéro du module-langue) */
+const PAY={},VIDEOS={},WA="";/* WA = votre numéro WhatsApp, ex : "50937000000" */
+let DEV="D"+Math.random().toString(36).slice(2,12);try{DEV=localStorage.getItem("iaID")||DEV;localStorage.setItem("iaID",DEV)}catch(e){}
+
+const E=["🤖","⚙️","✍️","💼","🎨","💰","🛡️"];
+const C={HT:{p:"6 500 HTG",m:["moncash","natcash","card","paypal"]},FR:{p:"45 €",m:["card","paypal","apple"]},CA:{p:"59 CAD",m:["card","paypal","interac"]},US:{p:"49 USD",m:["card","paypal","cashapp","zelle"]},AF:{p:"29 000 FCFA",m:["orange","wave","mtn","card"]},XX:{p:"49 USD",m:["card","paypal"]}};
+const MN={moncash:"MonCash",natcash:"NatCash",paypal:"PayPal",apple:"Apple Pay / Google Pay",interac:"Interac e-Transfer",cashapp:"Cash App",zelle:"Zelle",orange:"Orange Money",wave:"Wave",mtn:"MTN MoMo"};
+
+const L={"fr":{"u":{"tag":"Cours complet · 7 modules","h":"L’IA pour les nuls","sub":"Comprenez et utilisez l’intelligence artificielle, sans une ligne de code. Vidéos, leçons courtes, quiz et certificat.","buy":"Débloquer tout le cours","free":"Module 1 gratuit","path":"Votre parcours","mod":"Module","gratis":"Gratuit","c":"3 leçons + quiz","done":"Terminé ✔","back":"← Parcours","les":"Leçon","nxt":"Leçon suivante","toq":"Passer au quiz","q":"Quiz · question","ok":"✅ Bonne réponse.","ko":"❌ Pas tout à fait.","cont":"Continuer","pass":"Module réussi 🎉","almost":"Presque !","need":"Il faut 2/2 pour valider. Relisez les leçons et réessayez.","pn":"Vous pouvez passer au suivant.","retry":"Recommencer","hm":"Retour au parcours","bravo":"🎓 Bravo !","cd":"Recevez votre certificat.","nm":"Votre prénom et nom","getc":"Obtenir mon certificat","ct":"Certificat de réussite","to":"décerné à","fin":"pour avoir terminé les 7 modules du cours.","shot":"Faites une capture d’écran pour le partager.","vid":"Vidéo du module","vidn":"Ouvre YouTube dans un nouvel onglet","pay":"Paiement","country":"Votre pays","method":"Moyen de paiement","card":"Carte bancaire","send":"Envoyez le montant à :","notset":"Moyen non configuré par le vendeur.","demo":"Simuler le paiement (démo)","payb":"Payer maintenant","dn":"Prix indicatifs. Le déblocage ici est une démo : un vrai paiement doit être confirmé par un serveur.","cn":{"HT":"Haïti","FR":"France et Europe","CA":"Canada","US":"États-Unis","AF":"Afrique francophone","XX":"Autre pays"},"titles":["C’est quoi, l’IA ?","Comment ça marche ?","L’art du prompt","L’IA au quotidien et au travail","Images, voix et vidéo avec l’IA","Gagner de l’argent avec l’IA","Risques, éthique et avenir"]},"m":[["C’est quoi, l’IA ?",[["Une IA apprend avec des exemples","Au lieu de suivre des règles écrites à la main, elle repère des régularités dans des millions d’exemples."],["Elle est déjà partout","Filtre anti-spam, suggestions Netflix, GPS, correcteur du téléphone : de l’IA depuis des années."],["L’IA générative","ChatGPT, Claude ou Gemini créent du texte, des images ou du code à partir d’une simple demande."]],[["Qu’est-ce qui distingue une IA d’un programme classique ?",["Elle apprend à partir d’exemples","Elle est branchée à Internet","Elle est plus rapide"],0],["Lequel est une IA générative ?",["Une calculatrice","Un assistant qui rédige un e-mail","Un tableur"],1]]]]},"en":{"u":{"tag":"Full course · 7 modules","h":"AI for Beginners","sub":"Understand and use artificial intelligence, no coding needed. Videos, short lessons, quizzes and a certificate.","buy":"Unlock the full course","free":"Module 1 is free","path":"Your path","mod":"Module","gratis":"Free","c":"3 lessons + quiz","done":"Done ✔","back":"← Path","les":"Lesson","nxt":"Next lesson","toq":"Go to the quiz","q":"Quiz · question","ok":"✅ Correct.","ko":"❌ Not quite.","cont":"Continue","pass":"Module passed 🎉","almost":"Almost!","need":"You need 2/2 to pass. Review the lessons and try again.","pn":"You can move on to the next one.","retry":"Try again","hm":"Back to path","bravo":"🎓 Well done!","cd":"Get your certificate.","nm":"Your full name","getc":"Get my certificate","ct":"Certificate of completion","to":"awarded to","fin":"for completing all 7 modules of the course.","shot":"Take a screenshot to share it.","vid":"Module video","vidn":"Opens YouTube in a new tab","pay":"Payment","country":"Your country","method":"Payment method","card":"Bank card","send":"Send the amount to:","notset":"Method not set up by the seller yet.","demo":"Simulate payment (demo)","payb":"Pay now","dn":"Indicative prices. Unlocking here is a demo: a real payment must be confirmed by a server.","cn":{"HT":"Haiti","FR":"France & Europe","CA":"Canada","US":"United States","AF":"Francophone Africa","XX":"Other country"},"titles":["What is AI?","How does it work?","The art of prompting","AI in daily life and at work","Images, voice and video with AI","Making money with AI","Risks, ethics and the future"]},"m":[["What is AI?",[["AI learns from examples","Instead of following hand-written rules, it spots patterns in millions of examples."],["It’s already everywhere","Spam filters, Netflix suggestions, GPS, phone autocorrect: AI for years."],["Generative AI","ChatGPT, Claude or Gemini create text, images or code from a simple request."]],[["What sets AI apart from a classic program?",["It learns from examples","It’s online","It’s faster"],0],["Which one is generative AI?",["A calculator","An assistant that writes an email","A spreadsheet"],1]]]]},"ht":{"u":{"tag":"Kou konplè · 7 modil","h":"IA pou débutan","sub":"Konprann epi itilize entèlijans atifisyèl, san youn liy kòd. Videyo, ti leson, kiz ak sètifika.","buy":"Debloke tout kou a","free":"Modil 1 gratis","path":"Pakou ou","mod":"Modil","gratis":"Gratis","c":"3 leson + kiz","done":"Fini ✔","back":"← Pakou","les":"Leson","nxt":"Pwochen leson","toq":"Ale nan kiz la","q":"Kiz · kesyon","ok":"✅ Bon repons.","ko":"❌ Pa egzakteman.","cont":"Kontinye","pass":"Modil reyisi 🎉","almost":"Prèske !","need":"Ou bezwen 2/2 pou valide. Relie leson yo epi eseye ankò.","pn":"Ou ka pase nan pwochen an.","retry":"Rekòmanse","hm":"Tounen nan pakou a","bravo":"🎓 Bravo !","cd":"Resevwa sètifika ou.","nm":"Non konplè ou","getc":"Jwenn sètifika m","ct":"Sètifika reyisit","to":"bay","fin":"paske li fini 7 modil kou a.","shot":"Fè yon kaptè ekran pou pataje l.","vid":"Videyo modil la","vidn":"Louvri YouTube nan yon nouvo onglè","pay":"Peman","country":"Peyi ou","method":"Mwayen peman","card":"Kat bank","send":"Voye montan an sou :","notset":"Vandè a poko konfigire mwayen sa a.","demo":"Simile peman (demo)","payb":"Peye kounye a","dn":"Pri endikatif. Debloke isit la se yon demo : yon vrè peman dwe konfime pa yon sèvè.","cn":{"HT":"Ayiti","FR":"Frans ak Ewòp","CA":"Kanada","US":"Etazini","AF":"Lafrik fransofòn","XX":"Lòt peyi"},"titles":["Kisa IA ye ?","Kijan li mache ?","Atizay pwonp lan","IA nan lavi chak jou ak nan travay","Imaj, vwa ak videyo ak IA","Fè lajan ak IA","Risk, etik ak lavni"]},"m":[["Kisa IA ye ?",[["IA aprann ak egzanp","Olye li swiv règ yon moun ekri, li jwenn modèl nan plizyè milyon egzanp."],["Li deja toupatou","Filtè spam, sijesyon Netflix, GPS, korektè telefòn : se IA depi lontan."],["IA jeneratif","ChatGPT, Claude oswa Gemini kreye tèks, imaj oswa kòd ak yon senp demann."]],[["Ki sa ki fè yon IA diferan de yon pwogram nòmal ?",["Li aprann ak egzanp","Li konekte sou Entènèt","Li pi rapid"],0],["Ki youn ki se yon IA jeneratif ?",["Yon kalkilatris","Yon asistan ki ekri yon imèl","Yon tablo kalkil"],1]]]]}};
+
+let S={};try{S=JSON.parse(localStorage.getItem("iaN2")||"{}")}catch(e){}
+S.done=S.done||[];let PAID=null;
+if(!S.lang){const n=(navigator.language||"fr").slice(0,2);S.lang=n==="en"?"en":n==="ht"?"ht":"fr"}
+const save=()=>{try{localStorage.setItem("iaN2",JSON.stringify(S))}catch(e){}};
+function detect(){let z="",l=navigator.language||"fr";try{z=Intl.DateTimeFormat().resolvedOptions().timeZone||""}catch(e){}
+if(/Port-au-Prince/.test(z)||/^ht/i.test(l))return"HT";
+if(/^America\/(Toronto|Montreal|Vancouver|Halifax|Winnipeg|Edmonton)/.test(z))return"CA";
+if(/^America\//.test(z))return"US";if(/^Europe\//.test(z))return"FR";if(/^Africa\//.test(z))return"AF";return"XX"}
+const $=document.getElementById("app"),T=()=>L[S.lang].u,N=i=>i===0?L[S.lang].m[0]:PAID&&PAID[S.lang][i-1],TI=i=>T().titles[i];
+const locked=i=>i>0&&!PAID;
+let V=home,cur=0,step=0,qi=0,score=0,ans=false;
+const country=()=>S.hc||(S.hc="HT");
+
+function hdr(back){const t=T();return`<div class="top">${back?`<button class="btn g" id="bk">${t.back}</button>`:"<span></span>"}<span class="lg">${["fr","en","ht"].map(k=>`<button class="${S.lang===k?"on":""}" data-l="${k}">${k.toUpperCase()}</button>`).join("")}</span></div>`}
+function bind(){$.querySelectorAll(".lg button").forEach(b=>b.onclick=()=>{S.lang=b.dataset.l;document.documentElement.lang=S.lang==="ht"?"ht":S.lang;save();V()});
+const b=document.getElementById("bk");if(b)b.onclick=home}
+function vidLink(){const k=cur+"-"+S.lang,t=VT[S.lang];return`<button class="vid" id="pv"><b>▶</b><span><b style="display:block;width:auto;height:auto;background:none;color:#fff;font-size:1rem">${t.watch}</b><span style="opacity:.8;font-size:.85rem">${t.sub}</span></span></button>`+(VIDEOS[k]?`<a class="vid" href="${VIDEOS[k]}" target="_blank" rel="noopener"><b>🎬</b><span>${T().vid}</span></a>`:"")}
+function vidLinkOld(){const k=cur+"-"+S.lang,sf={fr:"IA débutant",en:"AI for beginners",ht:"IA kreyòl"}[S.lang];
+const u=VIDEOS[k]||"https://www.youtube.com/results?search_query="+encodeURIComponent(N(cur)[0]+" "+sf);
+return`<a class="vid" href="${u}" target="_blank" rel="noopener"><b>▶</b><span><b style="display:block;width:auto;height:auto;background:none;color:#fff;font-size:1rem">${T().vid}</b><span style="opacity:.8;font-size:.85rem">${T().vidn}</span></span></a>`}
+
+function home(){V=home;const t=T(),n=S.done.length,P=C[country()].p;
+$.innerHTML=hdr(0)+`<div class="hero"><span class="tag">${t.tag}</span><h1>${t.h}</h1><p>${t.sub}</p>${PAID?"":`<p class="price">${P}</p><button class="btn y" id="buy">${t.buy}</button><p style="margin:10px 0 0;font-size:.85rem">${t.free}</p>`}</div>
+<h2>${t.path}</h2><p class="mut">${n}/7</p>
+${[0,1,2,3,4,5,6].map(i=>`<button class="card mod ${locked(i)?"lock":""}" data-i="${i}"><span class="em">${locked(i)?"🔒":E[i]}</span><div><h3>${t.mod} ${i+1} · ${TI(i)}</h3><span class="mut">${S.done.includes(i)?t.done:i===0?t.gratis:"▶ "+t.c}</span><div class="bar"><i style="width:${S.done.includes(i)?100:0}%"></i></div></div></button>`).join("")}
+${n===7?`<div class="card"><h2>${t.bravo}</h2><p>${t.cd}</p><input id="nm" placeholder="${t.nm}" maxlength="40"><button class="btn" id="cert">${t.getc}</button></div>`:""}`;
+bind();
+$.querySelectorAll(".mod").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(locked(i))pay();else{cur=i;step=0;qi=0;score=0;lesson()}});
+const by=document.getElementById("buy");if(by)by.onclick=pay;
+const c=document.getElementById("cert");if(c)c.onclick=()=>{const v=document.getElementById("nm").value.trim();v?certif(v):document.getElementById("nm").focus()}}
+
+function pay(){V=pay;const t=T(),c=country(),d=C[c];if(!d.m.includes(S.pm))S.pm=d.m[0];
+const lab=k=>k==="card"?t.card:MN[k],v=PAY[S.pm]||"",isU=/^https?:/.test(v),P2=PT[S.lang],wa="https://wa.me/"+WA+"?text="+encodeURIComponent(P2.msg+" "+d.p+" · "+lab(S.pm));
+$.innerHTML=hdr(1)+`<h2>${t.pay}</h2><div class="card"><p class="price">${d.p}</p><label class="mut">${t.country}</label><select id="ct">${Object.keys(C).map(k=>`<option value="${k}" ${k===c?"selected":""}>${t.cn[k]}</option>`).join("")}</select><label class="mut">${t.method}</label>${d.m.map(k=>`<button class="opt ${k===S.pm?"on":""}" data-m="${k}">${lab(k)}</button>`).join("")}
+<p>${isU?`<a class="btn" href="${v}" target="_blank" rel="noopener">${t.payb}</a>`:v?`${t.send} <b>${v}</b>`:`<span class="note">${t.notset}</span>`}</p>
+</div><div class="card"><h3>${P2.step}</h3>${WA?`<a class="btn" href="${wa}" target="_blank" rel="noopener">${P2.wa}</a><p class="note" style="margin:10px 0">${P2.nwa}</p>`:""}<input id="cd" placeholder="${P2.code}" autocomplete="off"><button class="btn y" id="rd">${P2.go}</button><p class="note" id="rm"></p></div>`;
+bind();document.getElementById("ct").onchange=e=>{S.hc=e.target.value;S.pm=null;save();pay()};
+$.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{S.pm=b.dataset.m;save();pay()});
+document.getElementById("rd").onclick=async()=>{const v=document.getElementById("cd").value.trim(),m=document.getElementById("rm");if(!v)return;m.textContent="…";
+try{const r=await fetch("/api/redeem",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code:v,device:DEV})});const j=await r.json();if(!r.ok)throw 0;S.tok=j.token;S.code=j.id;save();await loadPaid();home()}catch(e){m.textContent=P2.bad}}}
+
+function lesson(){V=lesson;const t=T(),m=N(cur),l=m[1][step];
+$.innerHTML=hdr(1)+`<h2>${E[cur]} ${m[0]}</h2>${vidLink()}<div class="card"><p class="mut">${t.les} ${step+1}/3</p><h3>${l[0]}</h3><p>${l[1]}</p></div><button class="btn" id="nx">${step<2?t.nxt:t.toq}</button>`;
+bind();const pv=document.getElementById("pv");if(pv)pv.onclick=()=>video(0);document.getElementById("nx").onclick=()=>{if(step<2){step++;lesson()}else{qi=0;score=0;quiz()}}}
+
+function quiz(){V=quiz;const t=T(),Q=N(cur)[2];if(qi>=Q.length)return fin();const q=Q[qi];ans=false;
+$.innerHTML=hdr(1)+`<h2>${t.q} ${qi+1}/${Q.length}</h2><div class="card"><h3>${q[0]}</h3></div>${q[1].map((o,i)=>`<button class="opt" data-i="${i}">${o}</button>`).join("")}<div id="fb"></div>`;
+bind();$.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(ans)return;ans=true;const i=+b.dataset.i;
+$.querySelectorAll(".opt").forEach(x=>{if(+x.dataset.i===q[2])x.classList.add("ok")});
+if(i===q[2])score++;else b.classList.add("ko");
+document.getElementById("fb").innerHTML=`<p>${i===q[2]?t.ok:t.ko}</p><button class="btn" id="nq">${t.cont}</button>`;
+document.getElementById("nq").onclick=()=>{qi++;quiz()}})}
+
+function fin(){V=fin;const t=T(),ok=score===N(cur)[2].length;if(ok&&!S.done.includes(cur)){S.done.push(cur);save()}
+$.innerHTML=hdr(1)+`<div class="card" style="text-align:center"><h2>${ok?t.pass:t.almost}</h2><p class="price">${score}/${N(cur)[2].length}</p><p>${ok?t.pn:t.need}</p><div class="row" style="justify-content:center"><button class="btn g" id="rt">${t.retry}</button><button class="btn" id="hm">${t.hm}</button></div></div>`;
+bind();document.getElementById("hm").onclick=home;document.getElementById("rt").onclick=()=>{step=0;lesson()}}
+
+const VT={fr:{watch:"Regarder la vidéo du module",sub:"Animée, avec sous-titres et voix",play:"Lecture",pause:"Pause",voice:"Voix",end:"À vous de jouer !",endp:"Faites le quiz pour valider ce module.",lessons:"Voir les leçons",quiz:"Passer au quiz",sp:"fr-FR"},en:{watch:"Watch the module video",sub:"Animated, with captions and voice",play:"Play",pause:"Pause",voice:"Voice",end:"Your turn!",endp:"Take the quiz to complete this module.",lessons:"See the lessons",quiz:"Go to the quiz",sp:"en-US"},ht:{watch:"Gade videyo modil la",sub:"Anime, ak soutit ak vwa",play:"Jwe",pause:"Poz",voice:"Vwa",end:"Se pou ou !",endp:"Fè kiz la pou valide modil sa a.",lessons:"Wè leson yo",quiz:"Ale nan kiz la",sp:"fr-FR"}};
+let vt=null,vs=0,vel=0,vpl=true,vvo=false;
+function scenes(){const m=N(cur),t=VT[S.lang];return[{h:m[0],p:T().h,i:E[cur]},...m[1].map((l,k)=>({h:l[0],p:l[1],i:["💡","🔎","✅"][k]})),{h:t.end,p:t.endp,i:"🎯"}]}
+const dur=s=>3200+(vvo?75:50)*s.p.length;
+function speak(){try{speechSynthesis.cancel();if(!vvo||!vpl)return;const s=scenes()[vs],u=new SpeechSynthesisUtterance(s.h+". "+s.p);u.lang=VT[S.lang].sp;u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
+function video(s,keep){V=video;if(typeof s==="number"){vs=s;vel=0;vpl=true}
+const t=VT[S.lang],sc=scenes(),c=sc[vs],last=sc.length-1;
+$.innerHTML=hdr(1)+`<div class="stage" role="img"><div class="ic">${c.i}</div><h2>${c.h}</h2><p>${c.p}</p></div><div class="pb"><i style="width:${(vs+Math.min(1,vel/dur(c)))/sc.length*100}%"></i></div><div class="vc"><button class="btn g" id="pv0">⏮</button><button class="btn" id="pp">${vpl?"⏸ "+t.pause:"▶ "+t.play}</button><button class="btn g" id="pv1">⏭</button><button class="btn g" id="vo">🔊 ${t.voice}: ${vvo?"ON":"OFF"}</button></div><div class="row">${vs===last?`<button class="btn y" id="gq">${t.quiz}</button>`:""}<button class="btn g" id="gl">${t.lessons}</button></div>`;
+bind();if(!keep)speak();
+const go=n=>{vs=Math.max(0,Math.min(last,n));vel=0;vpl=true;video()};
+document.getElementById("pv0").onclick=()=>go(vs-1);document.getElementById("pv1").onclick=()=>go(vs+1);
+document.getElementById("pp").onclick=()=>{if(vpl){vpl=false;try{speechSynthesis.cancel()}catch(e){}video(undefined,true)}else{if(vel>=dur(c)){vs=vs===last?0:vs;vel=0}vpl=true;video()}};
+document.getElementById("vo").onclick=()=>{vvo=!vvo;video()};
+document.getElementById("gl").onclick=()=>{step=0;lesson()};
+const gq=document.getElementById("gq");if(gq)gq.onclick=()=>{qi=0;score=0;quiz()};
+clearInterval(vt);vt=setInterval(()=>{if(V!==video){clearInterval(vt);try{speechSynthesis.cancel()}catch(e){}return}
+if(!vpl)return;vel+=100;const d=dur(sc[vs]),pg=$.querySelector(".pb i");if(pg)pg.style.width=(vs+Math.min(1,vel/d))/sc.length*100+"%";
+if(vel>=d){if(vs<last)go(vs+1);else{vpl=false;video(undefined,true)}}},100)}
+(function(){["contextmenu","copy","cut","dragstart","selectstart"].forEach(n=>document.addEventListener(n,e=>{if(!/INPUT|TEXTAREA/.test(e.target.tagName||""))e.preventDefault()}));
+document.addEventListener("keydown",e=>{const k=(e.key||"").toLowerCase();if(e.key==="F12"||((e.ctrlKey||e.metaKey)&&(["s","u","p","c","a"].includes(k)||(e.shiftKey&&["i","j","c"].includes(k)))))e.preventDefault()});
+let id="ID-"+Math.random().toString(36).slice(2,8).toUpperCase();try{id=localStorage.getItem("iaID")||id;localStorage.setItem("iaID",id)}catch(e){}
+const w=document.createElement("div");w.className="wm";w.setAttribute("aria-hidden","true");w.textContent=Array(200).fill("© "+id).join(" ");document.body.appendChild(w);
+const f=document.createElement("p");f.className="note";f.style.cssText="text-align:center;margin:24px 16px";f.textContent="© 2026 · Licence personnelle "+id+" · Reproduction interdite";document.body.appendChild(f)})();
+function certif(n){V=()=>certif(n);const t=T(),d=new Date().toLocaleDateString({fr:"fr-FR",en:"en-US",ht:"fr-FR"}[S.lang],{day:"numeric",month:"long",year:"numeric"});
+$.innerHTML=hdr(1)+`<div class="cert"><p class="mut">${t.ct}</p><h2>${t.h}</h2><p>${t.to}</p><h1 id="who" style="font-size:1.9rem"></h1><p>${t.fin}</p><p class="mut">${d}</p></div><p class="note" style="text-align:center;margin-top:12px">${t.shot}</p>`;
+document.getElementById("who").textContent=n;bind()}
+const PT={fr:{step:"Après paiement",wa:"Envoyer la preuve par WhatsApp",nwa:"Nous vous répondons avec votre code d’accès personnel.",code:"Votre code d’accès (IA-XXXXXXXX)",go:"Activer mon accès",bad:"Code invalide ou limite d’appareils atteinte.",msg:"Bonjour, j’ai payé le cours IA :"},
+en:{step:"After payment",wa:"Send proof on WhatsApp",nwa:"We reply with your personal access code.",code:"Your access code (IA-XXXXXXXX)",go:"Activate my access",bad:"Invalid code or device limit reached.",msg:"Hello, I paid for the AI course:"},
+ht:{step:"Apre peman",wa:"Voye prèv la sou WhatsApp",nwa:"N ap reponn ou ak kòd aksè pèsonèl ou.",code:"Kòd aksè ou (IA-XXXXXXXX)",go:"Aktive aksè m",bad:"Kòd pa valab oswa limit aparèy la rive.",msg:"Bonjou, mwen peye kou IA a :"}};
+async function loadPaid(){try{const r=await fetch("/api/content?t="+encodeURIComponent(S.tok||""));if(!r.ok){if(r.status===403){S.tok=null;save()}throw 0}PAID=await r.json();const w=document.querySelector(".wm");if(w&&S.code)w.textContent=Array(200).fill("© "+S.code).join(" ")}catch(e){PAID=null}}
+if(S.tok)loadPaid().then(()=>V===home&&home());
+home();
+</script>
+</body>
+</html>
